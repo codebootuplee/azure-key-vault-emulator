@@ -1,0 +1,37 @@
+# Gradle specific
+.gradle/
+build/
+
+# Ignore Gradle Wrapper files
+!gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ IDEA specific files
+*.iml
+.idea/
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Temporary files
+tmp/
+temp/
+
+# Compiled class files
+*.class
+
+# JAR files
+*.jar
+
+# WAR files
+*.war
+
+# EAR files
+*.ear
+
+# Mac OS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db

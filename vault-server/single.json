@@ -1,0 +1,20 @@
+{
+  "value": "mySecretValue",
+  "id": "https://your-keyvault-name.vault.azure.net/secrets/secret1/version-id",
+  "contentType": "text/plain",
+  "attributes": {
+    "enabled": true,
+    "created": 1609459200,
+    "updated": 1609459200,
+    "recoveryLevel": "Purgeable",
+    "expires": 1640995200
+  },
+  "tags": {
+    "env": "production",
+    "owner": "dev-team"
+  }
+}
+GET https://your-keyvault-name.vault.azure.net/secrets?api-version=7.3
+
+GET https://your-keyvault-name.vault.azure.net/secrets/secret1?api-version=7.3
+

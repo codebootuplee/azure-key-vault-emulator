@@ -1,0 +1,22 @@
+[
+  {
+    "id": "https://your-keyvault-name.vault.azure.net/secrets/secret1",
+    "attributes": {
+      "enabled": true,
+      "created": 1609459200,
+      "updated": 1609459200,
+      "recoveryLevel": "Purgeable",
+      "expires": 1640995200
+    }
+  },
+  {
+    "id": "https://your-keyvault-name.vault.azure.net/secrets/secret2",
+    "attributes": {
+      "enabled": true,
+      "created": 1612137600,
+      "updated": 1612137600,
+      "recoveryLevel": "Recoverable+Purgeable",
+      "expires": null
+    }
+  }
+]
