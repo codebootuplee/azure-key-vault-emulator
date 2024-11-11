@@ -78,18 +78,28 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+package com.example.mockkeyvault.controller
+
+import com.example.mockkeyvault.entity.Secret
+import com.example.mockkeyvault.model.SecretResponse
+import com.example.mockkeyvault.model.SecretAttributes
+import com.example.mockkeyvault.service.SecretService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import jakarta.servlet.http.HttpServletRequest
+
 @RestController
 @RequestMapping("/api/v1/secrets")
 class SecretController @Autowired constructor(private val secretService: SecretService) {
 
-    private val vaultBaseUrl = "https://your-keyvault-name.vault.azure.net/secrets"
-
     @GetMapping
-    fun listSecrets(): ResponseEntity<List<Map<String, Any>>> {
+    fun listSecrets(request: HttpServletRequest): ResponseEntity<List<Map<String, Any>>> {
+        val baseUrl = "${request.scheme}://${request.serverName}:${request.serverPort}${request.contextPath}/api/v1/secrets"
         val secrets = secretService.getAllSecrets()
         val response = secrets.map { secret ->
             mapOf(
-                "id" to "$vaultBaseUrl/${secret.keyName}",
+                "id" to "$baseUrl/${secret.keyName}",
                 "attributes" to SecretAttributes(
                     enabled = secret.enabled,
                     created = secret.created,
@@ -103,13 +113,14 @@ class SecretController @Autowired constructor(private val secretService: SecretS
     }
 
     @GetMapping("/{keyName}")
-    fun getSecret(@PathVariable keyName: String): ResponseEntity<SecretResponse> {
+    fun getSecret(@PathVariable keyName: String, request: HttpServletRequest): ResponseEntity<SecretResponse> {
+        val baseUrl = "${request.scheme}://${request.serverName}:${request.serverPort}${request.contextPath}/api/v1/secrets"
         val secretOpt = secretService.getSecret(keyName)
         return if (secretOpt.isPresent) {
             val secret = secretOpt.get()
             val response = SecretResponse(
                 value = secret.value,
-                id = "$vaultBaseUrl/${secret.keyName}/${secret.id}",
+                id = "$baseUrl/${secret.keyName}/${secret.id}",
                 contentType = secret.contentType,
                 attributes = SecretAttributes(
                     enabled = secret.enabled,
@@ -132,6 +143,7 @@ class SecretController @Autowired constructor(private val secretService: SecretS
         return ResponseEntity.ok(createdSecret)
     }
 }
+
 
 package com.example.mockkeyvault.service
 
